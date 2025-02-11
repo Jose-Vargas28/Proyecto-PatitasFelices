@@ -1,20 +1,27 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+// firebase.js
 
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, deleteDoc, setDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth'; // Importamos Firebase Auth
+
+// Configuración de Firebase (reemplaza con tus valores específicos)
 const firebaseConfig = {
-  apiKey: "AIzaSyDCWqpIzU0w2Nh9ZAepSW58CKQuhYK4Lpk",  // Reemplaza con tu clave de API
-  authDomain: "crud-maqueta-c1804.firebaseapp.com",  // Usualmente es: <nombre-del-proyecto>.firebaseapp.com
-  projectId: "crud-maqueta-c1804",  // Tu ID de proyecto
-  storageBucket: "crud-maqueta.appspot.com",  // Usualmente es: <nombre-del-proyecto>.appspot.com
-  messagingSenderId: "889185192525",  // ID del proyecto
-  appId: "1:889185192525:web:someappId",  // Reemplaza con tu appId (puedes encontrarlo en la consola de Firebase)
+  apiKey: "AIzaSyAhTdr7uisNUxeTDyQG-BjtV3LKkRB66Zg",
+  authDomain: "login-auth-f1ce7.firebaseapp.com",
+  projectId: "login-auth-f1ce7",
+  storageBucket: "login-auth-f1ce7.firebasestorage.app",
+  messagingSenderId: "716235499497",
+  appId: "1:716235499497:web:04b6aa4c87327df8a54d78"
 };
 
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
 
+// Inicializar Firebase Auth
+const auth = getAuth(app); // Obtenemos la instancia de Firebase Auth
 
-const appFireBase = initializeApp(firebaseConfig);
-const db = getFirestore(appFireBase);
-const auth = getAuth(appFireBase);
+// Inicializar Firestore
+const db = getFirestore(app); // Obtenemos la instancia de Firestore
 
-export { db, auth, collection, addDoc, getDocs, updateDoc, doc, deleteDoc, signInWithEmailAndPassword };
+// Exportar las funciones de Firestore y Auth
+export { db, auth, collection, addDoc, getDocs, updateDoc, doc, deleteDoc, setDoc };

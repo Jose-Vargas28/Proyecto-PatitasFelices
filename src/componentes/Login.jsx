@@ -15,7 +15,7 @@ const LoginPage = () => {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             toast.success("Inicio de sesión exitoso");
-            navigate("/profile"); // Redirigir al perfil
+            navigate("/"); // Redirigir al perfil
         } catch (error) {
             toast.error("Error al iniciar sesión: " + error.message);
         }

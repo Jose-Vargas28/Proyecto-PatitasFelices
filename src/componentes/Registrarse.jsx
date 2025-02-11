@@ -1,10 +1,9 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { auth } from "../servicios/Credenciales";
+import { auth, db } from "../servicios/firebase"; // Cambié la importación aquí
 import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom"; // Importamos useNavigate para la redirección
-
 
 function Registrarse() {
   const [email, setEmail] = useState("");
@@ -30,7 +29,7 @@ function Registrarse() {
 
       if (user) {
         // Si el usuario fue creado, guardar la información en Firestore
-        await setDoc(doc(db, "Users", user.uid), {
+        await setDoc(doc(db, "Usuarios", user.uid), {
           email: user.email,
           firstName: fname,
           lastName: lname,
@@ -41,7 +40,7 @@ function Registrarse() {
         toast.success("¡Usuario registrado con éxito!", { position: "top-center" });
 
         // Redirigir al usuario a la página de perfil
-        navigate("/profile"); 
+        navigate("/");
       }
     } catch (error) {
       // Manejo de errores
@@ -120,4 +119,3 @@ function Registrarse() {
 }
 
 export default Registrarse;
-
