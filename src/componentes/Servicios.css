@@ -1,0 +1,170 @@
+
+.hero-text{
+    color: #333;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    padding: 5px;
+    padding-bottom: 25px;
+    width: 450px;
+    margin-left: 55%;
+    margin-right: 0; 
+    
+}
+/* Hero Section */
+#hero2 {
+    background: url('../imagenes/gato1.jpeg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 5rem 2rem;
+}
+
+#hero2 h2 {
+    font-size: 2.0rem;
+    margin-bottom: 1rem;
+}
+
+#hero2 p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.boton {
+    padding: 0.8rem 2rem;
+    background-color: #45a049;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#hero2 .btn:hover {
+    background-color: #e5533e;
+}
+
+/* Services Section */
+#services {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #fff;
+}
+
+#services h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #ff6347;
+}
+.cuerpo{
+    background-image: url('./imagenes/fila_perros.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+
+}
+.service-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
+    align-items: center; 
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    
+}
+.service-card {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+.service-card:hover {
+    transform: scale(1.2); /* Aumenta el tamaño al pasar el ratón */
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    color: #ff6347;
+}
+
+.service-card p {
+    color: #555;
+    margin-top: 0.5rem;
+}
+
+
+
+
+.mas_informacion{
+    width: 100%;
+    background-color: #181717;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.paseos{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                    url("imagenes/paseos.jpg"); /* Filtro + imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-size: cover; /* Ajusta el fondo para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    color: white; /* Define el color del texto como blanco */
+    font-family: Arial, sans-serif; /* Aplica una fuente básica */
+    height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
+    display: flex; /* Activa Flexbox */
+    flex-direction: column; /* Mantiene los elementos en columna (orden vertical) */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+}
+.estetica{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                    url("imagenes/estetica.jpg"); /* Filtro + imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-size: cover; /* Ajusta el fondo para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    color: white; /* Define el color del texto como blanco */
+    font-family: Arial, sans-serif; /* Aplica una fuente básica */
+    height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
+    display: flex; /* Activa Flexbox */
+    flex-direction: column; /* Mantiene los elementos en columna (orden vertical) */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+}
+.sin_jaulas{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                    url("imagenes/sin_jaulas.jpg"); /* Filtro + imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-size: cover; /* Ajusta el fondo para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    color: white; /* Define el color del texto como blanco */
+    font-family: Arial, sans-serif; /* Aplica una fuente básica */
+    height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
+    display: flex; /* Activa Flexbox */
+    flex-direction: column; /* Mantiene los elementos en columna (orden vertical) */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+    
+}
+.mas_contenido{
+    width: 900px;
+    justify-content: center;
+    font-size: 1.5rem;
+    padding: 50px; /* Agrega espacio interno */
+    background: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente opcional */
+    border-radius: 10px;
+}
