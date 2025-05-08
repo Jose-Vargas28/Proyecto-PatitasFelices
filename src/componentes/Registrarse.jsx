@@ -1,120 +1,169 @@
+import React, { useState, useRef } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
-import { auth, db } from "../servicios/firebase"; // Cambié la importación aquí
+import { auth, db } from "../servicios/firebase"; // Ajusta la ruta si es diferente
 import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom"; // Importamos useNavigate para la redirección
+import { useNavigate } from "react-router-dom";
+import Webcam from "react-webcam";
+import { detectarRostro } from "./faceplusplus"; // Ajusta ruta si está en la misma carpeta
+import "./Registrarse.css"; // Asegúrate de usar el CSS correcto
 
 function Registrarse() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
+  const [captura, setCaptura] = useState(null);
+  const [atributos, setAtributos] = useState(null);
 
-  const navigate = useNavigate(); // Hook para redirección
+  const navigate = useNavigate();
+  const webcamRef = useRef(null);
+
+  const handleCaptureAndDetect = async () => {
+    if (!webcamRef.current) return;
+    const screenshot = webcamRef.current.getScreenshot();
+    if (!screenshot) {
+      toast.error("No se pudo capturar imagen");
+      return;
+    }
+
+    setCaptura(screenshot);
+    try {
+      const data = await detectarRostro(screenshot);
+      if (data.faces && data.faces.length > 0) {
+        const attr = data.faces[0].attributes;
+        setAtributos(attr);
+        toast.success(`Rostro detectado: Edad ${attr.age.value}, Género ${attr.gender.value}`);
+      } else {
+        toast.warning("No se detectó rostro");
+      }
+    } catch (error) {
+      console.error("Error al detectar rostro:", error);
+      toast.error("Error al procesar imagen");
+    }
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Validación para la contraseña
-    if (password.length < 6) {
-      toast.error("La contraseña debe tener al menos 6 caracteres", { position: "bottom-center" });
+    if (!captura || !atributos) {
+      toast.warning("Debes capturar tu rostro primero");
       return;
     }
 
     try {
-      // Crear el usuario con correo y contraseña
-      await createUserWithEmailAndPassword(auth, email, password);
-      const user = auth.currentUser;
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      const user = cred.user;
 
-      if (user) {
-        // Si el usuario fue creado, guardar la información en Firestore
-        await setDoc(doc(db, "Usuarios", user.uid), {
-          email: user.email,
-          firstName: fname,
-          lastName: lname,
-          photo: ""
-        });
+      await setDoc(doc(db, "Usuarios", user.uid), {
+        email,
+        firstName: fname,
+        lastName: lname,
+        photoBase64: captura,
+        rostro: {
+          edad: atributos.age?.value,
+          genero: atributos.gender?.value,
+          sonrisa: atributos.smile?.value
+        }
+      });
 
-        // Mostrar mensaje de éxito
-        toast.success("¡Usuario registrado con éxito!", { position: "top-center" });
-
-        // Redirigir al usuario a la página de perfil
-        navigate("/");
-      }
+      toast.success("¡Usuario registrado con rostro!");
+      navigate("/");
     } catch (error) {
-      // Manejo de errores
-      console.error("Error en el registro:", error.code, error.message);
-      if (error.code === 'auth/email-already-in-use') {
-        toast.error("¡El correo electrónico ya está en uso!", { position: "bottom-center" });
-      } else if (error.code === 'auth/weak-password') {
-        toast.error("La contraseña debe tener al menos 6 caracteres", { position: "bottom-center" });
-      } else {
-        toast.error(error.message, { position: "bottom-center" });
-      }
+      console.error("Error en el registro:", error.message);
+      toast.error("Error al registrar usuario");
     }
   };
 
+
   return (
-    <div className="form-container">
-      <form onSubmit={handleRegister}>
-        <h3>Registrarse</h3>
+    <main>
+      <h3>Registrarse</h3>
+      <div className="loginPage">
+        <h3 className="loginPage-title">Registrarse</h3>
 
-        <div className="mb-3">
-          <label>Nombre</label>
+        <form onSubmit={handleRegister}>
+
+          <div class="mb-3">
+            <label>Nombre</label>
+          </div>
+          
           <input
             type="text"
-            className="form-control"
-            placeholder="Ingresa tu nombre"
+            placeholder="Nombre"
+            required
             onChange={(e) => setFname(e.target.value)}
-            required
           />
-        </div>
 
-        <div className="mb-3">
-          <label>Apellido</label>
+          <div class="mb-3">
+            <label>Apellido</label>
+            
+          </div>
+
+
           <input
             type="text"
-            className="form-control"
-            placeholder="Ingresa tu apellido"
-            onChange={(e) => setLname(e.target.value)}
+            placeholder="Apellido"
             required
+            onChange={(e) => setLname(e.target.value)}
           />
-        </div>
 
-        <div className="mb-3">
-          <label>Correo electrónico</label>
+          <div class="mb-3">
+            <label>Correo electrónico</label>
+            
+          </div>
+
+
+
           <input
             type="email"
-            className="form-control"
-            placeholder="Ingresa tu correo"
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Correo electrónico"
             required
+            onChange={(e) => setEmail(e.target.value)}
           />
-        </div>
 
-        <div className="mb-3">
-          <label>Contraseña</label>
+          <div class="mb-3">
+            <label>Contraseña</label><br />
+            
+          </div>
+
+
           <input
             type="password"
-            className="form-control"
-            placeholder="Ingresa tu contraseña"
-            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Contraseña"
             required
+            onChange={(e) => setPassword(e.target.value)}
           />
-        </div>
 
-        <div className="d-grid">
-          <button type="submit" className="btn btn-primary">
-            Registrarse
-          </button>
-        </div>
+          <div style={{ marginTop: "15px", textAlign: "center" }}>
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              width={320}
+              height={240}
+              style={{
+                borderRadius: "8px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+              }}
+            />
+            <button
+              type="button"
+              style={{ marginTop: "12px" }}
+              onClick={handleCaptureAndDetect}
+            >
+              Capturar rostro con Face++
+            </button>
+          </div>
 
-        <p className="forgot-password text-right">
-          ¿Ya tienes cuenta? <a href="/login">Iniciar sesión</a>
-        </p>
-      </form>
-    </div>
+          <button type="submit">Registrarse</button>
+
+          <p className="forgot-password">
+            ¿Ya tienes cuenta? <a href="/login">Iniciar sesión</a>
+          </p>
+        </form>
+      </div>
+    </main>
   );
 }
 
